@@ -105,6 +105,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
 
     // If Chariott is enabled then connect to Chariott and register the service.
     if settings.chariott_uri.is_some() {
+        info!("Create service identifiers used to uniquely identify the service...");
         // Create service identifiers used to uniquely identify the service.
         let service_identifier = ServiceIdentifier {
             namespace: settings.namespace.unwrap(),

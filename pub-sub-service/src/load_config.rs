@@ -9,7 +9,7 @@ use std::env;
 use clap::Parser;
 use common::config_utils::{self, ConfigFileMetadata, SvcConfigHomeMetadata};
 use include_dir::{include_dir, Dir};
-use log::{debug, error};
+use log::{debug, error, info};
 use proc_macros::ConfigSource;
 use serde_derive::{Deserialize, Serialize};
 
@@ -141,6 +141,8 @@ pub fn load_settings(
     let file_name = format!("{CONFIG_FILE_STEM}.{YAML_EXT}");
     let default_file_name = format!("{CONFIG_FILE_STEM}.{DEFAULT}.{YAML_EXT}");
 
+    info!("default_file_name = '{default_file_name}' .");
+
     let mut settings: Settings = load_config(&file_name, &default_file_name, Some(args))
         .map_err(|e| {
             format!(
@@ -148,7 +150,7 @@ pub fn load_settings(
             )
         })?;
 
-    debug!("settings config: {:?}", settings);
+    info!("settings config: {:?}", settings);
 
     if settings.chariott_uri.is_some() {
         // Get version of the service for Chariott registration if not defined.

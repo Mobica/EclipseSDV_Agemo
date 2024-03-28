@@ -8,6 +8,7 @@ use std::{
 };
 
 use config::{Config, File, FileFormat, FileStoredFormat, Source};
+use log::{info};
 use home::home_dir;
 use include_dir::Dir;
 use serde::Deserialize;
@@ -101,12 +102,17 @@ pub fn load_default_config_from_file(
     default_dir: &Dir,
 ) -> Result<Box<dyn Source + Send + Sync>, Box<dyn std::error::Error + Send + Sync>> {
     // Get appropriate default config.
+    info!("MST default file '{}'.", &config_file.name);
+    //info!("MST default file '{}'.", &default_dir);
+    
     let file = default_dir
         .get_file(&config_file.name)
         .ok_or(std::io::Error::new(
             std::io::ErrorKind::NotFound,
             format!("Unable to find default file '{}'.", &config_file.name),
         ))?;
+
+        
 
     let file_contents = file.contents_utf8().ok_or(std::io::Error::new(
         std::io::ErrorKind::InvalidData,
@@ -146,7 +152,7 @@ pub fn get_config_home_path_from_env(
                 .join(&svc_home_metadata.config_dir)
         }
     };
-
+    info!("MST config_path : {:?}", config_path);
     Ok(config_path)
 }
 

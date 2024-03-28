@@ -189,13 +189,17 @@ impl PubSubConnector for MqttFiveBrokerConnector {
         cb_channel: mpsc::Sender<MonitorMessage>,
     ) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
         // Connect to broker with mqtt client. pass message_cb that handles sending data back to subscriber
-        info!("Connecting to MQTT server...");
+        
         let message_cb = pubsub_connector::update_topic_information;
         let result = Self::connect_client(self, cb_channel, message_cb);
 
         // TODO: actually handle error
         if result.is_err() {
             error!("Failed to connect to MQTT server...");
+        }
+        else{
+            info!("Connected to MQTT server :  = ");
+        //    println!("{} ,", cb_channel);
         }
 
         Self::subscribe(self, SUBSCRIBE.to_string()).await;
