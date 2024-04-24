@@ -104,6 +104,11 @@ have installed the prerequisites:
 cargo build
 ```
 
+To build on Raspberry Pi
+```shell
+cargo build --target aarch64-unknown-linux-gnu
+```
+
 ### Running the Tests
 
 After successfully building the service, you can run all of the unit tests. To do this go to the
